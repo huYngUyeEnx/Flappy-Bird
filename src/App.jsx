@@ -29,6 +29,29 @@ function App() {
   // passedPipes: Lưu trữ ID các ống đã vượt qua để tính điểm một lần duy nhất mỗi ống
   const passedPipes = useRef(new Set());
 
+  // scale: Tỷ lệ co giãn để vừa với màn hình Mobile
+  const [scale, setScale] = useState(1);
+
+  // Tính toán lại tỷ lệ khi màn hình thay đổi
+  useEffect(() => {
+    const calcScale = () => {
+      const padding = 20; // Chừa lề một chút
+      const availableWidth = window.innerWidth - padding;
+      const availableHeight = window.innerHeight - padding;
+
+      const widthScale = availableWidth / GAME_WIDTH;
+      const heightScale = availableHeight / GAME_HEIGHT;
+
+      // Chọn tỷ lệ nhỏ hơn để đảm bảo khung game luôn nằm trọn trong màn hình
+      const newScale = Math.min(widthScale, heightScale, 1);
+      setScale(newScale);
+    };
+
+    calcScale();
+    window.addEventListener('resize', calcScale);
+    return () => window.removeEventListener('resize', calcScale);
+  }, []);
+
   /**
    * Vòng lặp chính của Game (chạy 60 lần/giây)
    */
@@ -113,12 +136,18 @@ function App() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-slate-900 select-none"
+      className="flex items-center justify-center min-h-screen bg-slate-900 select-none overflow-hidden touch-none"
       onPointerDown={handleAction}
     >
       <div
-        className="relative overflow-hidden bg-sky-300 border-4 border-slate-700 shadow-2xl cursor-pointer"
-        style={{ width: `${GAME_WIDTH}px`, height: `${GAME_HEIGHT}px` }}
+        className="relative overflow-hidden bg-sky-300 shadow-2xl transition-transform duration-300"
+        style={{
+          width: `${GAME_WIDTH}px`,
+          height: `${GAME_HEIGHT}px`,
+          transform: `scale(${scale})`,
+          transformOrigin: 'center center',
+          borderRadius: scale < 1 ? '0' : '1rem' // Tràn viền trên Mobile, bo góc trên PC
+        }}
       >
         {/* Layer 1: Clouds (Slowest parallax) */}
         <div
