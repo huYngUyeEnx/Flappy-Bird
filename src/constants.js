@@ -1,0 +1,9 @@
+export const GRAVITY = 0.6;          // Trọng lực kéo chim xuống
+export const JUMP_STRENGTH = -8;     // Lực nhảy khi người dùng click
+export const PIPE_SPEED = 3;         // Tốc độ di chuyển của ống nước
+export const PIPE_SPAWN_RATE = 1500; // Tần suất sinh ống nước mới (ms)
+export const BIRD_START_X = 50;      // Vị trí X ban đầu của chim
+export const BIRD_START_Y = 250;     // Vị trí Y ban đầu của chim
+export const BIRD_SIZE = 40;         // Kích thước của chim
+export const GAME_WIDTH = 400;       // Chiều rộng khung game
+export const GAME_HEIGHT = 600;      // Chiều cao khung game
