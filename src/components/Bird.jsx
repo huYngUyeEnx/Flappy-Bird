@@ -12,7 +12,7 @@ const Bird = ({ top, velocity = 0 }) => {
 
     return (
         <div
-            className="absolute bg-yellow-400 rounded-full border-2 border-black z-40 transition-transform duration-100"
+            className="absolute bg-yellow-400 rounded-full border-2 border-black z-40"
             style={{
                 top: `${top}px`,
                 left: '50px',

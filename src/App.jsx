@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Bird from './components/Bird';
 import Pipe from './components/Pipe';
+import GameOver from './components/GameOver';
 import useBird from './hooks/useBird';
 import usePipes from './hooks/usePipes';
+import useBackground from './hooks/useBackground';
 import useGameLoop from './hooks/useGameLoop';
 import { GAME_WIDTH, GAME_HEIGHT, BIRD_SIZE, BIRD_START_X, PIPE_WIDTH, PIPE_GAP } from './constants';
 
@@ -22,6 +24,7 @@ function App() {
   // Các custom hooks để quản lý riêng biệt Bird và Pipes
   const { y, velocity, update: updateBird, jump, reset: resetBird } = useBird();
   const { pipes, update: updatePipes, reset: resetPipes } = usePipes();
+  const { cityOffset, cloudOffset, update: updateBG, reset: resetBG } = useBackground();
 
   // passedPipes: Lưu trữ ID các ống đã vượt qua để tính điểm một lần duy nhất mỗi ống
   const passedPipes = useRef(new Set());
@@ -33,6 +36,7 @@ function App() {
     if (gameStarted && !gameOver) {
       updateBird();    // Cập nhật vị trí chim
       updatePipes(time); // Cập nhật vị trí các ống
+      updateBG();      // Cập nhật vị trí nền
 
       // 1. Kiểm tra va chạm với nền đất (chiều cao 40px)
       if (y + BIRD_SIZE > GAME_HEIGHT - 40) {
@@ -81,6 +85,7 @@ function App() {
       passedPipes.current.clear();
       resetBird();
       resetPipes();
+      resetBG();
       return;
     }
 
@@ -109,12 +114,41 @@ function App() {
   return (
     <div
       className="flex items-center justify-center min-h-screen bg-slate-900 select-none"
-      onClick={handleAction}
+      onPointerDown={handleAction}
     >
       <div
         className="relative overflow-hidden bg-sky-300 border-4 border-slate-700 shadow-2xl cursor-pointer"
         style={{ width: `${GAME_WIDTH}px`, height: `${GAME_HEIGHT}px` }}
       >
+        {/* Layer 1: Clouds (Slowest parallax) */}
+        <div
+          className="absolute top-20 flex opacity-40 pointer-events-none"
+          style={{ width: `${GAME_WIDTH * 2}px`, transform: `translateX(-${cloudOffset}px)` }}
+        >
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="flex justify-around flex-1 h-20 items-start">
+              <div className="w-16 h-8 bg-white rounded-full blur-md"></div>
+              <div className="w-24 h-10 bg-white rounded-full blur-lg mt-10"></div>
+              <div className="w-20 h-8 bg-white rounded-full blur-md mt-4"></div>
+            </div>
+          ))}
+        </div>
+
+        {/* Layer 2: City Landscape (Slower parallax) */}
+        <div
+          className="absolute bottom-10 flex h-32 opacity-30 pointer-events-none"
+          style={{ width: `${GAME_WIDTH * 2}px`, transform: `translateX(-${cityOffset}px)` }}
+        >
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="flex items-end space-x-1 flex-1 h-full">
+              <div className="w-12 h-20 bg-slate-600 rounded-t-sm"></div>
+              <div className="w-16 h-28 bg-slate-700 rounded-t-sm"></div>
+              <div className="w-10 h-16 bg-slate-600 rounded-t-sm"></div>
+              <div className="w-20 h-24 bg-slate-800 rounded-t-sm"></div>
+              <div className="w-14 h-32 bg-slate-700 rounded-t-sm"></div>
+            </div>
+          ))}
+        </div>
         {/* Lớp hiển thị Điểm số */}
         <div className="absolute top-10 w-full text-center z-50">
           <span className="text-white text-6xl font-black drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
@@ -132,13 +166,7 @@ function App() {
 
         {/* Màn hình Thua cuộc */}
         {gameOver && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-red-500/40 z-50 text-center">
-            <p className="text-white text-4xl font-black mb-2 drop-shadow-lg">GAME OVER</p>
-            <p className="text-white text-2xl font-bold mb-4">Total Score: {score}</p>
-            <button className="text-red-600 px-6 py-2 rounded-full font-bold hover:bg-slate-100 transition-colors">
-              Play Again
-            </button>
-          </div>
+          <GameOver score={score} onRestart={handleAction} />
         )}
 
         {/* Vẽ các Ống nước rà soát qua mảng pipes */}

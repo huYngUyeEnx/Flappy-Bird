@@ -1,6 +1,8 @@
 export const GRAVITY = 0.6;          // Trọng lực kéo chim xuống
 export const JUMP_STRENGTH = -8;     // Lực nhảy khi người dùng click
 export const PIPE_SPEED = 3;         // Tốc độ di chuyển của ống nước
+export const BG_SPEED = 1;           // Tốc độ di chuyển của nền (Thành phố)
+export const CLOUD_SPEED = 0.3;      // Tốc độ di chuyển của mây (Cực chậm)
 export const PIPE_SPAWN_RATE = 1500; // Tần suất sinh ống nước mới (ms)
 export const BIRD_START_X = 50;      // Vị trí X ban đầu của chim
 export const BIRD_START_Y = 250;     // Vị trí Y ban đầu của chim

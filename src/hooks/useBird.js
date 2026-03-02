@@ -23,10 +23,11 @@ const useBird = () => {
     }, []);
 
     /**
-     * Đưa vận tốc về giá trị nhảy (âm) để đẩy chim lên trên
+     * Đưa vận tốc về giá trị nhảy (âm) và cập nhật Y ngay lập tức để có phản hồi tức thì
      */
     const jump = useCallback(() => {
         velocityRef.current = JUMP_STRENGTH;
+        setY((prevY) => prevY + JUMP_STRENGTH); // Nhích lên ngay lập tức
     }, []);
 
     /**
