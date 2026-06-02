@@ -3,33 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { Play, ArrowUpRight } from "@phosphor-icons/react";
 
-const games = [
-  {
-    id: "flappy-bird",
-    name: "Flappy Bird",
-    path: "/flappy-bird",
-    description: "A classic test of patience and timing.",
-    category: "Arcade",
-    colSpan: "col-span-1 md:col-span-2 lg:col-span-2",
-    image: "/flappy-bird-bg.png",
-  },
-  {
-    id: "tetris",
-    name: "Tetris",
-    path: "#",
-    description: "Falling blocks puzzle. (Coming Soon)",
-    category: "Puzzle",
-    colSpan: "col-span-1",
-  },
-  {
-    id: "snake",
-    name: "Snake",
-    path: "#",
-    description: "Eat, grow, survive. (Coming Soon)",
-    category: "Arcade",
-    colSpan: "col-span-1 md:col-span-3",
-  },
-];
+import { games } from "../data/games";
 
 export default function Home() {
   return (

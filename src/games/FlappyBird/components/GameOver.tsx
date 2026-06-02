@@ -5,8 +5,8 @@ import React, { useState } from "react";
  * @param {number} score - Điểm số đạt được
  * @param {function} onRestart - Hàm xử lý khi nhấn chơi lại
  */
-const GameOver = ({ score, onRestart }) => {
-  const [copyStatus, setCopyStatus] = useState(null);
+const GameOver = ({ score, onRestart }: { score: number; onRestart: () => void }) => {
+  const [copyStatus, setCopyStatus] = useState<string | null>(null);
 
   const shareTitle = "Flappy Bird React";
   const shareText = `🎮 Tôi vừa ghi được ${score} điểm trong Flappy Bird! Thử thách bạn vượt qua tôi đấy!`;
@@ -15,7 +15,7 @@ const GameOver = ({ score, onRestart }) => {
   /**
    * Xử lý chia sẻ sử dụng Web Share API hoặc Fallback sao chép vào Clipboard
    */
-  const handleShare = async (e) => {
+  const handleShare = async (e: React.PointerEvent<HTMLButtonElement>) => {
     e.stopPropagation(); // Ngăn sự kiện restart game ngoài ý muốn
 
     if (navigator.share) {
