@@ -14,11 +14,21 @@ const useBird = () => {
   /**
    * Cập nhật vị trí chim dựa trên vận tốc và áp dụng trọng lực
    * @param {number} delta - Hệ số thời gian để ổn định tốc độ trên mọi màn hình
+   * @param {boolean} isInvincible - Đang ở chế độ giữ màn hình
    */
-  const update = useCallback((delta = 1) => {
+  const update = useCallback((delta = 1, isInvincible = false) => {
     setY((prevY) => {
-      const nextY = prevY + velocityRef.current * delta;
-      velocityRef.current += GRAVITY * delta; // Tốc độ rơi tăng dần theo trọng lực
+      if (isInvincible) {
+        // Bay theo đường chéo hướng lên với tốc độ cố định
+        velocityRef.current = -4; 
+      } else {
+        velocityRef.current += GRAVITY * delta; // Tốc độ rơi tăng dần theo trọng lực
+      }
+      
+      let nextY = prevY + velocityRef.current * delta;
+      // Chặn trần nhà
+      if (nextY < 0) nextY = 0;
+
       return nextY;
     });
   }, []);

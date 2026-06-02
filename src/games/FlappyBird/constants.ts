@@ -8,7 +8,7 @@ export const BIRD_START_X = 50; // Vị trí X ban đầu của chim
 export const BIRD_START_Y = 250; // Vị trí Y ban đầu của chim
 export const BIRD_SIZE = 40; // Kích thước của chim
 export const PIPE_WIDTH = 60; // Chiều rộng của ống nước
-export const PIPE_GAP = 160; // Khoảng cách giữa ống trên và ống dưới
+export const PIPE_GAP = 220; // Khoảng cách giữa ống trên và ống dưới (đã tăng)
 export const GAME_WIDTH = 400; // Chiều rộng khung game
 export const GAME_HEIGHT = 600; // Chiều cao khung game
 // Auto-trigger build
