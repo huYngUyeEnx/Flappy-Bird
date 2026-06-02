@@ -55,7 +55,16 @@ const usePipes = () => {
     lastSpawnTime.current = 0;
   }, []);
 
-  return { pipes, update, reset };
+  /**
+   * Đánh dấu ống bị vỡ
+   */
+  const shatterPipe = useCallback((id: number) => {
+    setPipes((prev) =>
+      prev.map((pipe) => (pipe.id === id ? { ...pipe, isShattered: true } : pipe))
+    );
+  }, []);
+
+  return { pipes, update, reset, shatterPipe };
 };
 
 export default usePipes;
