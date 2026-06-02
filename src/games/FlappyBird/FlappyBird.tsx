@@ -67,7 +67,7 @@ function FlappyBird() {
   /**
    * Vòng lặp chính của Game (chạy 60 lần/giây)
    */
-  useGameLoop((delta) => {
+  useGameLoop((delta: number) => {
     if (gameStarted && !gameOver) {
       const time = performance.now();
       updateBird(delta); // Cập nhật vị trí chim với delta
@@ -138,7 +138,7 @@ function FlappyBird() {
    * Lắng nghe sự kiện phím cách (Space) từ bàn phím
    */
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space") {
         handleAction();
       }
