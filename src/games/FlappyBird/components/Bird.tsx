@@ -9,7 +9,7 @@ interface BirdProps {
 
 const Bird = ({ top, velocity = 0, isInvincible = false }: BirdProps) => {
   const rotation = Math.min(Math.max(velocity * 4, -20), 90);
-  
+
   // Khi bay lên (velocity âm), lửa phun dài và sáng hơn
   const isJumping = velocity < 0;
 
@@ -26,7 +26,7 @@ const Bird = ({ top, velocity = 0, isInvincible = false }: BirdProps) => {
       }}
     >
       {/* Jet Engine Flame (Lửa phản lực Plasma) */}
-      <div 
+      <div
         className={`absolute -left-6 top-1/2 -translate-y-1/2 h-3 rounded-full bg-gradient-to-r from-transparent via-cyan-400 to-blue-200 blur-[1px] transition-all duration-150 ease-out ${isJumping ? 'w-14 opacity-100' : 'w-6 opacity-40'}`}
         style={{
           boxShadow: isJumping ? '-5px 0 15px rgba(0, 255, 255, 0.8)' : 'none',
